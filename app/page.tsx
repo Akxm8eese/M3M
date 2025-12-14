@@ -21,7 +21,7 @@ const AppContent = () => {
       <div className="max-w-md mx-auto p-6 space-y-8">
         <header className="flex justify-between items-center py-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Today's Goals</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Today&apos;s Goals</h1>
             <p className="text-sm text-gray-500">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
           </div>
           <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold border border-gray-200">

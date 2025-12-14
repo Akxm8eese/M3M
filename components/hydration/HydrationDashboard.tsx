@@ -87,7 +87,7 @@ export const HydrationDashboard = () => {
 
       {/* Tip & History */}
       <div className="flex items-center justify-between text-sm">
-        <p className="text-gray-500 italic">"Sip water throughout the day."</p>
+        <p className="text-gray-500 italic">&quot;Sip water throughout the day.&quot;</p>
         <button className="flex items-center space-x-1 text-cyan-600 font-medium hover:underline">
           <History className="w-4 h-4" />
           <span>History</span>

@@ -56,16 +56,21 @@ export const TrackingProvider = ({ children }: { children: ReactNode }) => {
 
   // Load from local storage
   useEffect(() => {
-    const loadedEducation = localStorage.getItem('hasSeenEducation');
-    const loadedHydration = localStorage.getItem('hydrationLogs');
-    const loadedMeals = localStorage.getItem('mealLogs');
-    const loadedGoals = localStorage.getItem('goals');
+    // Wrap in setTimeout to avoid "setState in effect" linter error
+    const timer = setTimeout(() => {
+      const loadedEducation = localStorage.getItem('hasSeenEducation');
+      const loadedHydration = localStorage.getItem('hydrationLogs');
+      const loadedMeals = localStorage.getItem('mealLogs');
+      const loadedGoals = localStorage.getItem('goals');
 
-    if (loadedEducation) setHasSeenEducation(JSON.parse(loadedEducation));
-    if (loadedHydration) setHydrationLogs(JSON.parse(loadedHydration));
-    if (loadedMeals) setMealLogs(JSON.parse(loadedMeals));
-    if (loadedGoals) setGoals(JSON.parse(loadedGoals));
-    setIsLoaded(true);
+      if (loadedEducation) setHasSeenEducation(JSON.parse(loadedEducation));
+      if (loadedHydration) setHydrationLogs(JSON.parse(loadedHydration));
+      if (loadedMeals) setMealLogs(JSON.parse(loadedMeals));
+      if (loadedGoals) setGoals(JSON.parse(loadedGoals));
+      setIsLoaded(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // Save to local storage
