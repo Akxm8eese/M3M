@@ -1,0 +1,40 @@
+# User Stories
+
+## Onboarding + Vegus Assessment
+1. **As a user logging into my account, I want to start with a doctor visit with Vegus, so that I can set my height, weight, desired build, health assessment level, activity level, and fitness goals before planning meals.**
+2. **As a user, I want to skip the Vegus assessment, so that I can use grocery list + budget features immediately.**
+3. **As a Patriarch/Matriarch caregiver admin, I want to configure health profiles for household members, so that recommendations are aligned to each person’s needs.**
+
+## Multi-Household + Caregiving
+4. **As a caregiver who provides groceries for multiple families, I want to manage several households from one account, so that I can coordinate inventory and spending across homes.**
+5. **As a caregiver admin, I want role-based permissions for each member, so that editing and approvals stay controlled.**
+6. **As a household member, I want to request grocery items from my household list, so that my caregiver sees what is needed.**
+
+## Inventory + Storage Navigation
+7. **As a user, I want an interactive kitchen tour view (cabinets, cupboards, fridge shelves, door slots, bins, drawers, deep freezer), so that I can quickly find and manage items by location.**
+8. **As a user, I want to move items between storage zones, so that the app reflects where food actually is.**
+9. **As a user, I want to mark items as half-used or partially used, so that counts and meal planning remain accurate.**
+10. **As a user, I want shelf-life expectations and expiry visibility, so that I can use ingredients before they spoil.**
+11. **As a meal-prep user, I want optional weight-based tracking limits in addition to count mode, so that macros can be planned more precisely.**
+
+## Meal Generation + Missing Ingredient Clarity
+12. **As a user, I want generated meals to show in-stock ingredients in bold, so that I can instantly see what I already have.**
+13. **As a user, I want missing ingredients shown in dotted italics, so that unavailable items stand out at a glance.**
+14. **As a user, I want missing ingredient quantities estimated by servings, so that I know exactly how much to buy.**
+15. **As a user, I want estimated prices for missing ingredients, so that I can decide if a meal fits my budget.**
+16. **As a caregiver admin, I want servings-based planning by household member, so that meals match dependent needs.**
+
+## Budget + Grocery List
+17. **As a user, I want missing meal ingredients auto-added to my grocery list, so that shopping prep is fast.**
+18. **As a user, I want budget breakdowns by meal and household, so that I can control spending.**
+19. **As a user, I want to manually add substitutions and still see updated totals, so that I can make cost-aware tradeoffs.**
+
+## Vegus Healthy Alternatives
+20. **As a user, I want Vegus to suggest healthier ingredient swaps based on my defined conditions/goals, so that recommendations are personalized.**
+21. **As a caregiver admin, I want to set health rules and limits (macros, sodium, glycemic concerns, additives), so that Vegus enforces family-safe guidance.**
+22. **As a user, I want Vegus to highlight/glow when I am about to exceed configured health limits, so that I can intervene before finalizing a meal.**
+23. **As a user, I want Vegus suggestions to include reasoning grounded in supported culinary and health evidence categories, so that I can trust recommendations.**
+
+## Subscription
+24. **As a caregiver, I want an Advanced Caregiving tier with multi-household controls and servings-based dependent planning, so that I can access the features needed for coordinated care.**
+
