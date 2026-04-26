@@ -1,0 +1,31 @@
+-- AgentFlow PostgreSQL schema
+CREATE TABLE IF NOT EXISTS workouts (
+  id SERIAL PRIMARY KEY,
+  type VARCHAR(100) NOT NULL,
+  duration INTEGER NOT NULL CHECK (duration > 0),
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS water_logs (
+  id SERIAL PRIMARY KEY,
+  amount INTEGER NOT NULL CHECK (amount > 0),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS todos (
+  id SERIAL PRIMARY KEY,
+  text VARCHAR(255) NOT NULL,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
+  priority VARCHAR(10) NOT NULL CHECK (priority IN ('low', 'medium', 'high')),
+  due_date DATE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS reminders (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  reminder_time TIMESTAMPTZ NOT NULL,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
