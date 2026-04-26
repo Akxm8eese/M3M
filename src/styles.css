@@ -240,9 +240,13 @@ button {
 
 .meal-form {
   display: grid;
-  grid-template-columns: minmax(160px, 1.5fr) repeat(3, minmax(80px, 1fr)) auto;
+  grid-template-columns: minmax(160px, 1.5fr) 2fr auto;
   gap: 10px;
   margin-top: 20px;
+}
+
+.meal-form > .eyebrow {
+  grid-column: 1 / -1;
 }
 
 .meal-form input {
