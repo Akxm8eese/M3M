@@ -180,4 +180,10 @@ Build a **high-performance** hydration + macronutrient tracking interface with s
 ### 3.3 Macro Details & History
 
 **When user taps a macro (e.g., Protein):**
-- Navig
+- Navigate to macro detail screen.
+- Show daily trend for selected macro.
+- Show recent meals that contributed to this macro.
+
+**Performance notes:**
+- Use memoized selectors for chart data.
+- Paginate or virtualize long history lists.
