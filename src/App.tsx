@@ -41,6 +41,13 @@ const macroLabels: Record<MacroKey, string> = {
   fats: 'Fats',
 };
 
+function formatLiters(value: number) {
+  return `${new Intl.NumberFormat('en', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+  }).format(value / 1000)}L`;
+}
+
 function clampPercent(value: number) {
   return Math.min(Math.max(value, 0), 100);
 }
@@ -181,12 +188,12 @@ function App() {
         <article className="card hydration-card">
           <div>
             <p className="eyebrow">Hydration</p>
-            <h2>{(totalHydration / 1000).toFixed(1)}L logged</h2>
+            <h2>{formatLiters(totalHydration)} logged</h2>
           </div>
           <ProgressRing
             value={hydrationProgress}
             label="Total"
-            detail={`${(totalHydration / 1000).toFixed(1)}L / ${(hydration.goal / 1000).toFixed(1)}L`}
+            detail={`${formatLiters(totalHydration)} / ${formatLiters(hydration.goal)}`}
             color="#0d9488"
           />
           <div className="quick-actions" aria-label="Quick add water">
@@ -194,8 +201,8 @@ function App() {
             <button onClick={() => addWater(500)}>+500ml</button>
           </div>
           <div className="breakdown">
-            <span>Water: {(hydration.fromWater / 1000).toFixed(1)}L</span>
-            <span>Meals: {(hydration.fromMeals / 1000).toFixed(1)}L</span>
+            <span>Water: {formatLiters(hydration.fromWater)}</span>
+            <span>Meals: {formatLiters(hydration.fromMeals)}</span>
           </div>
           <p className="tip">{hydrationTips[selectedTipIndex]}</p>
         </article>
@@ -237,15 +244,15 @@ function App() {
           <div className="form-row">
             <label>
               Protein
-              <input name="protein" type="number" min="0" defaultValue="20" />
+              <input name="protein" type="number" min="0" placeholder="grams" />
             </label>
             <label>
               Carbs
-              <input name="carbs" type="number" min="0" defaultValue="45" />
+              <input name="carbs" type="number" min="0" placeholder="grams" />
             </label>
             <label>
               Fats
-              <input name="fats" type="number" min="0" defaultValue="12" />
+              <input name="fats" type="number" min="0" placeholder="grams" />
             </label>
           </div>
           <button type="submit">Add meal</button>
