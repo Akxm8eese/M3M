@@ -142,6 +142,8 @@ export const TrackingProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  if (!isLoaded) return null;
+
   return (
     <TrackingContext.Provider
       value={{

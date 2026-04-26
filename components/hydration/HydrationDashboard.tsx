@@ -35,7 +35,7 @@ export const HydrationDashboard = () => {
         {/* Inline Feedback */}
         {progress < 100 ? (
           <p className="mt-4 text-sm font-medium text-cyan-600 animate-pulse">
-            Great job! Only {((goals.hydration - total) / 250).toFixed(0)} cup{((goals.hydration - total) / 250) > 1 ? 's' : ''} to go!
+            Great job! Only {Math.ceil((goals.hydration - total) / 250)} cup{Math.ceil((goals.hydration - total) / 250) !== 1 ? 's' : ''} to go!
           </p>
         ) : (
           <p className="mt-4 text-sm font-medium text-green-600">
