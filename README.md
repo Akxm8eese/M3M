@@ -3,6 +3,30 @@
 Goal:  
 Build a **high-performance** hydration + macronutrient tracking interface with smooth animations, minimal re-renders, and clear user flows.
 
+## Development
+
+This repository includes a Vite + React + TypeScript implementation of the dashboard described below.
+
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+
+### Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+The dev server listens on `http://localhost:5173`.
+
+### Build
+
+```bash
+npm run build
+```
+
 ---
 
 ## 1. Core Features
