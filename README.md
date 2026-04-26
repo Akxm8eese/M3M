@@ -1,183 +1,298 @@
-# Hydration & Macronutrient Tracking App
+# AgentFlow
 
-Goal:  
-Build a **high-performance** hydration + macronutrient tracking interface with smooth animations, minimal re-renders, and clear user flows.
-
----
-
-## 1. Core Features
-
-- Hydration tracking:
-  - Track **total hydration** from water + meals.
-  - Quick-add buttons for common amounts.
-  - Progress ring with smooth animation.
-- Macronutrient tracking:
-  - Track **protein, carbs, fats** toward daily goals.
-  - Circular macro progress bars.
-  - Meal logging with macro breakdown.
-  - Smart suggestions when a macro is low.
-- History:
-  - Daily/weekly history for hydration + macros.
-  - Simple log views (low overhead).
+A production-ready, mobile-first productivity dashboard for life insurance agents and busy professionals. Track workouts, water intake, daily tasks, and reminders — all in one clean interface.
 
 ---
 
-## 2. Hydration Tracking Workflow
+## Features
 
-### 2.1 Hydration Education Screen (First-Time Only)
-
-**Goal:** Educate user that hydration comes from both food + drinks.
-
-**Logic:**
-- Show once per user on first app open or until dismissed.
-- Controlled by a boolean flag in storage: `hasSeenHydrationEducation: boolean`.
-
-**UI:**
-- Illustration:
-  - Left: Plate with droplets – label: “From Food”
-  - Right: Glass of water – label: “From Drinks”
-  - Plus sign between them.
-- Text:
-  - “Your body gets water from both food and drinks. Tracking both helps you stay hydrated!”
-- Button:
-  - `Continue` → sets `hasSeenHydrationEducation = true` and navigates to main dashboard.
-
-**Performance notes:**
-- Keep illustration as a static asset or simple vector; avoid heavy image loading.
-- Only mount this screen if `hasSeenHydrationEducation === false`.
+| Module | Capabilities |
+|---|---|
+| **Dashboard** | At-a-glance view of today's workouts, water progress, pending tasks, and upcoming reminders |
+| **Workout Tracker** | Log workout type, duration, and notes; view history; delete entries |
+| **Water Intake** | Quick-add buttons (8 / 12 / 16 / 24 oz), custom amounts, daily progress bar (64 oz goal), auto-resets daily |
+| **Todo Checklist** | Create tasks with priority (low / medium / high) and optional due date; mark complete / incomplete; delete |
+| **Reminders** | Set title + date/time; browser notifications for overdue items; mark complete; delete |
 
 ---
 
-### 2.2 Hydration Dashboard Section
+## Tech Stack
 
-**Displayed on main dashboard.**
-
-**UI elements:**
-- Large circular progress ring (total hydration):
-  - Center text: `currentHydration / hydrationGoal` (e.g., `1.5L / 2.5L`).
-- Quick-add buttons:
-  - `+250ml`
-  - `+500ml`
-- Breakdown row:
-  - `Water: X L` (icon: glass)
-  - `Meals: Y L` (icon: plate)
-- Links/text:
-  - `History` → opens hydration log.
-  - Hydration tip block (rotating tips).
-
-**State model (example):**
-- `hydration`:
-  - `total: number` (ml)
-  - `fromWater: number` (ml)
-  - `fromMeals: number` (ml)
-  - `goal: number` (ml, e.g., 2500)
-- `hydrationTips: string[]`
-- `selectedTipIndex: number`
-
-**Performance notes:**
-- Use memoized selectors:
-  - `totalHydration = fromWater + fromMeals`
-  - `progress = totalHydration / goal`
-- Animate progress ring only when `totalHydration` changes.
-- Avoid global re-renders: isolate hydration components from macros.
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, Vite, React Router v6 |
+| Backend | Node.js, Express 4 |
+| Database | PostgreSQL |
+| Styling | Custom CSS (mobile-first, navy / white / gold palette) |
+| Deployment | Vercel (frontend), Render or Railway (backend + Postgres) |
 
 ---
 
-### 2.3 Logging Hydration
+## Project Structure
 
-**User actions:**
-- Tap `+250ml` or `+500ml`.
-- Or open custom input modal: `Add Custom Amount`.
-
-**Logic:**
-- When user logs water:
-  - Update `fromWater += amount`.
-  - Recalculate `totalHydration`.
-- When hydration updates:
-  - Trigger animation on progress ring.
-  - Show inline feedback:
-    - Example: “Great job! Only 1 cup to go!”
-
-**Performance notes:**
-- Keep logging functions pure and fast.
-- Debounce or batch updates if multiple logs happen quickly.
-- Use lightweight animations (e.g., CSS transform / GPU-accelerated, or simple RN animated values).
-
----
-
-## 3. Macronutrient Tracking Workflow
-
-### 3.1 Macronutrient Dashboard Section
-
-**UI elements:**
-- Three circular progress bars:
-  - `Protein: current / goal (g)`
-  - `Carbs: current / goal (g)`
-  - `Fats: current / goal (g)`
-- Each progress ring shows:
-  - Label (e.g., “Protein”)
-  - `60g / 80g`
-- Link:
-  - `Tap a macro for details`
-- Button:
-  - `Log Meal`
-- Suggestions:
-  - e.g., “Try: Tofu” under Protein if protein is low.
-
-**State model (example):**
-- `macros`:
-  - `protein: { current: number, goal: number }`
-  - `carbs: { current: number, goal: number }`
-  - `fats: { current: number, goal: number }`
-- `macroSuggestions`: { protein: string[], carbs: string[], fats: string[] }
-
-**Performance notes:**
-- Store macro totals, not every tiny operation.
-- Use derived values for percentages:
-  - `percentage = current / goal`.
-- Avoid unnecessary re-renders of all three macros when only one changes.
+```
+agentflow/
+├── client/                 # React + Vite frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Route-level pages
+│   │   ├── services/       # API client helpers
+│   │   ├── hooks/          # Custom React hooks
+│   │   └── styles/         # Global CSS
+│   ├── index.html
+│   ├── vite.config.js
+│   ├── .env.example
+│   └── package.json
+├── server/                 # Express API backend
+│   ├── controllers/        # Request handlers
+│   ├── routes/             # Express routers
+│   ├── models/             # Database queries
+│   ├── middleware/         # Error handler, etc.
+│   ├── db/                 # Pool config & init script
+│   ├── app.js              # Express app setup
+│   ├── server.js           # Entry point
+│   ├── .env.example
+│   └── package.json
+└── README.md
+```
 
 ---
 
-### 3.2 Logging a Meal
+## Local Setup
 
-**Flow:**
-- User taps `Log Meal`.
-- Open modal or new screen:
-  - Fields:
-    - Food name
-    - Portion size
-    - Protein (g)
-    - Carbs (g)
-    - Fats (g)
-- On submit:
-  - Update `macros.protein.current`, `macros.carbs.current`, `macros.fats.current`.
-  - Push entry into `mealHistory`.
+### Prerequisites
 
-**Smart logic:**
-- After update, check which macro is below, e.g.:
-  - If `protein.current / protein.goal < 0.6`:
-    - Show: “Consider adding more protein to your next meal.”
+- **Node.js** v18+ and npm
+- **PostgreSQL** 14+ running locally (or a remote instance)
 
-**Data model for meals (example):**
-- `mealHistory: Array<{
-    id: string;
-    timestamp: string;
-    name: string;
-    protein: number;
-    carbs: number;
-    fats: number;
-  }>`
+### 1. Clone the repository
 
+```bash
+git clone <repo-url>
+cd agentflow
+```
 
-**Performance notes:**
-- Use IDs for meal entries to keep list updates efficient.
-- Virtualize long lists if needed (for meal history screen).
-- Keep modal lightweight and unmount when closed.
+### 2. Set up PostgreSQL
+
+Create a database:
+
+```bash
+psql -U postgres -c "CREATE DATABASE agentflow;"
+```
+
+### 3. Configure the backend
+
+```bash
+cd server
+cp .env.example .env
+```
+
+Edit `.env` with your PostgreSQL credentials:
+
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=agentflow
+PORT=5000
+CLIENT_URL=http://localhost:5173
+```
+
+Install dependencies and initialize tables:
+
+```bash
+npm install
+npm run db:init
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The API will be running at `http://localhost:5000`.
+
+### 4. Configure the frontend
+
+In a new terminal:
+
+```bash
+cd client
+cp .env.example .env
+npm install
+npm run dev
+```
+
+The app opens at `http://localhost:5173`. Vite proxies `/api` requests to the backend automatically during development.
 
 ---
 
-### 3.3 Macro Details & History
+## API Routes
 
-**When user taps a macro (e.g., Protein):**
-- Navig
+### Health Check
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Server health check |
+
+### Workouts
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/workouts` | Get all workouts |
+| POST | `/api/workouts` | Create a workout (`type`, `duration`, `notes?`) |
+| DELETE | `/api/workouts/:id` | Delete a workout |
+
+### Water Intake
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/water/today` | Get today's water logs + total |
+| POST | `/api/water` | Add water entry (`amount` in oz) |
+| DELETE | `/api/water/:id` | Delete a water log |
+
+### Todos
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/todos` | Get all todos |
+| POST | `/api/todos` | Create a todo (`text`, `priority?`, `due_date?`) |
+| PUT | `/api/todos/:id` | Update a todo (any field) |
+| DELETE | `/api/todos/:id` | Delete a todo |
+
+### Reminders
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/reminders` | Get all reminders |
+| POST | `/api/reminders` | Create a reminder (`title`, `reminder_time`) |
+| PUT | `/api/reminders/:id` | Update a reminder (any field) |
+| DELETE | `/api/reminders/:id` | Delete a reminder |
+
+---
+
+## Database Schema
+
+### workouts
+
+| Column | Type | Notes |
+|---|---|---|
+| id | SERIAL | Primary key |
+| type | VARCHAR(100) | Not null |
+| duration | INTEGER | Minutes, not null |
+| notes | TEXT | Optional |
+| created_at | TIMESTAMPTZ | Auto-set |
+
+### water_logs
+
+| Column | Type | Notes |
+|---|---|---|
+| id | SERIAL | Primary key |
+| amount | NUMERIC(6,1) | Ounces, not null |
+| created_at | TIMESTAMPTZ | Auto-set |
+
+### todos
+
+| Column | Type | Notes |
+|---|---|---|
+| id | SERIAL | Primary key |
+| text | VARCHAR(500) | Not null |
+| completed | BOOLEAN | Default false |
+| priority | VARCHAR(10) | low / medium / high |
+| due_date | DATE | Optional |
+| created_at | TIMESTAMPTZ | Auto-set |
+
+### reminders
+
+| Column | Type | Notes |
+|---|---|---|
+| id | SERIAL | Primary key |
+| title | VARCHAR(300) | Not null |
+| reminder_time | TIMESTAMPTZ | Not null |
+| completed | BOOLEAN | Default false |
+| created_at | TIMESTAMPTZ | Auto-set |
+
+---
+
+## Environment Variables
+
+### Backend (`server/.env`)
+
+| Variable | Description | Default |
+|---|---|---|
+| `DB_HOST` | PostgreSQL host | `localhost` |
+| `DB_PORT` | PostgreSQL port | `5432` |
+| `DB_USER` | PostgreSQL user | `postgres` |
+| `DB_PASSWORD` | PostgreSQL password | — |
+| `DB_NAME` | Database name | `agentflow` |
+| `PORT` | API server port | `5000` |
+| `CLIENT_URL` | Frontend origin (CORS) | `http://localhost:5173` |
+
+### Frontend (`client/.env`)
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_API_URL` | Backend API base URL (production only) | _(empty — uses Vite proxy in dev)_ |
+
+---
+
+## Deployment
+
+### Frontend → Vercel
+
+1. Push the repo to GitHub.
+2. Import the project in [Vercel](https://vercel.com).
+3. Set the **Root Directory** to `client`.
+4. Framework preset: **Vite**.
+5. Add the environment variable:
+   - `VITE_API_URL` = your deployed backend URL (e.g. `https://agentflow-api.onrender.com`)
+6. Deploy.
+
+For client-side routing, add a `client/vercel.json`:
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
+
+### Backend → Render / Railway
+
+#### Render
+
+1. Create a new **Web Service** connected to the repo.
+2. Set **Root Directory** to `server`.
+3. Build command: `npm install`
+4. Start command: `npm start`
+5. Add all env vars from `server/.env.example`.
+6. Attach a managed PostgreSQL database (Render provides free-tier Postgres).
+7. Run `npm run db:init` via the Render shell to create tables.
+
+#### Railway
+
+1. Create a new project and connect the repo.
+2. Add a PostgreSQL plugin.
+3. Set the root directory to `server` and add env vars.
+4. Railway auto-detects Node.js and runs `npm start`.
+
+---
+
+## Future Upgrades
+
+- **Authentication** — Add user accounts with JWT or OAuth so each agent has private data.
+- **Progressive Web App (PWA)** — Add a service worker and manifest for install-to-home-screen and offline caching.
+- **Push notifications** — Integrate Web Push API for background reminder alerts.
+- **Data export** — Export workout history and water logs as CSV/PDF reports.
+- **Recurring reminders** — Support daily / weekly repeat schedules.
+- **Dark mode** — Toggle between light and dark themes.
+- **Charts & analytics** — Visualize workout trends and water consistency over time.
+- **Team dashboards** — Agency managers can view team activity.
+
+---
+
+## License
+
+MIT

@@ -1,0 +1,477 @@
+/* ─── CSS Custom Properties (Design Tokens) ─────────── */
+:root {
+  --navy: #0f1b3d;
+  --navy-light: #1a2d5a;
+  --navy-dark: #0a1228;
+  --gold: #d4a843;
+  --gold-light: #e8c96a;
+  --gold-dark: #b8922e;
+  --white: #ffffff;
+  --off-white: #f5f6fa;
+  --gray-100: #e9ecf2;
+  --gray-200: #d1d5e0;
+  --gray-400: #8892a8;
+  --gray-600: #4a5568;
+  --danger: #e53e3e;
+  --danger-hover: #c53030;
+  --success: #38a169;
+  --success-light: #c6f6d5;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 8px rgba(15, 27, 61, 0.08);
+  --shadow-lg: 0 4px 20px rgba(15, 27, 61, 0.12);
+  --transition: 0.2s ease;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ─── Reset / Base ───────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--off-white);
+  color: var(--navy);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--gold-dark);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font);
+  font-size: 1rem;
+}
+
+/* ─── Layout ─────────────────────────────────────────── */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+.app-header .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-header .logo span {
+  color: var(--gold);
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.app-nav a {
+  color: var(--gray-200);
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+
+.app-nav a:hover,
+.app-nav a.active {
+  background: var(--navy-light);
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+/* ─── Cards ──────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ─── Buttons ────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+}
+.btn-primary:hover {
+  background: var(--gold-light);
+}
+
+.btn-secondary {
+  background: var(--navy);
+  color: var(--white);
+}
+.btn-secondary:hover {
+  background: var(--navy-light);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--white);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+.btn-danger:hover {
+  background: var(--danger-hover);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  font-size: 1.1rem;
+  color: var(--gray-400);
+  transition: color var(--transition);
+}
+.btn-icon:hover {
+  color: var(--danger);
+}
+
+/* ─── Forms ──────────────────────────────────────────── */
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--gray-600);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: border-color var(--transition);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.15);
+}
+
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.form-row > * {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* ─── Progress bar ───────────────────────────────────── */
+.progress-bar-track {
+  width: 100%;
+  height: 20px;
+  background: var(--gray-100);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 10px;
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+
+.progress-label {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.4rem;
+  color: var(--gray-600);
+}
+
+/* ─── Priority badges ───────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-high {
+  background: #fed7d7;
+  color: #c53030;
+}
+.badge-medium {
+  background: #fefcbf;
+  color: #975a16;
+}
+.badge-low {
+  background: var(--success-light);
+  color: #276749;
+}
+
+/* ─── Dashboard grid ─────────────────────────────────── */
+.dashboard-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── Todo item ──────────────────────────────────────── */
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--gray-400);
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.todo-meta {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  margin-top: 0.15rem;
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold);
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+/* ─── Reminder item ──────────────────────────────────── */
+.reminder-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.reminder-item:last-child {
+  border-bottom: none;
+}
+
+.reminder-item.completed .reminder-title {
+  text-decoration: line-through;
+  color: var(--gray-400);
+}
+
+.reminder-title {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.reminder-time {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  margin-top: 0.15rem;
+}
+
+/* ─── Workout item ───────────────────────────────────── */
+.workout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.workout-item:last-child {
+  border-bottom: none;
+}
+
+.workout-info {
+  flex: 1;
+}
+
+.workout-type {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.workout-detail {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+
+/* ─── Water quick-add buttons ────────────────────────── */
+.water-quick-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.water-quick-btns .btn {
+  flex: 1;
+  min-width: 60px;
+}
+
+/* ─── Empty state ────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--gray-400);
+  font-size: 0.9rem;
+}
+
+/* ─── Utility ────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+
+/* ─── Mobile nav ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .app-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .app-nav {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .app-nav a {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* ─── Scrollable lists ───────────────────────────────── */
+.scrollable-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* ─── Page title ─────────────────────────────────────── */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
