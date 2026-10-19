@@ -1,183 +1,43 @@
-# Hydration & Macronutrient Tracking App
+# The Body Zodiac · Beta 1 demo
 
-Goal:  
-Build a **high-performance** hydration + macronutrient tracking interface with smooth animations, minimal re-renders, and clear user flows.
+Clickable client-review prototype for the KORE TRUTHS educational explorer. It follows the beta PRD in `prd/PRD.md`: invitation and framing, twelve chapters, front/back/spindle views, layers, filters, food details, and feedback.
 
----
+This is a review build so the conversation can be about the product. It is not the final visual design, not a medical tool, and not an approved content release.
 
-## 1. Core Features
+The previous `main` README described a hydration and macronutrient tracker. That is a different product and is not part of this demo.
 
-- Hydration tracking:
-  - Track **total hydration** from water + meals.
-  - Quick-add buttons for common amounts.
-  - Progress ring with smooth animation.
-- Macronutrient tracking:
-  - Track **protein, carbs, fats** toward daily goals.
-  - Circular macro progress bars.
-  - Meal logging with macro breakdown.
-  - Smart suggestions when a macro is low.
-- History:
-  - Daily/weekly history for hydration + macros.
-  - Simple log views (low overhead).
+## How to start
 
----
+Requires Node 20 or newer.
 
-## 2. Hydration Tracking Workflow
+```bash
+npm install
+npm run dev
+```
 
-### 2.1 Hydration Education Screen (First-Time Only)
+Open [http://localhost:5173](http://localhost:5173).
 
-**Goal:** Educate user that hydration comes from both food + drinks.
+The dev server answers `POST /api/feedback` and keeps notes in memory until the process stops. It does not send them anywhere.
 
-**Logic:**
-- Show once per user on first app open or until dismissed.
-- Controlled by a boolean flag in storage: `hasSeenHydrationEducation: boolean`.
+Other commands:
 
-**UI:**
-- Illustration:
-  - Left: Plate with droplets – label: “From Food”
-  - Right: Glass of water – label: “From Drinks”
-  - Plus sign between them.
-- Text:
-  - “Your body gets water from both food and drinks. Tracking both helps you stay hydrated!”
-- Button:
-  - `Continue` → sets `hasSeenHydrationEducation = true` and navigates to main dashboard.
+```bash
+npm test
+npm run build
+```
 
-**Performance notes:**
-- Keep illustration as a static asset or simple vector; avoid heavy image loading.
-- Only mount this screen if `hasSeenHydrationEducation === false`.
+`npm test` checks filter and viewer behavior, the feedback payload, and that this demo catalog is rejected by `execution/validate_content.py`. Rejection is expected: reviewers are not named, and the demo catalog is wider than the v0.1 gate.
 
----
+## Review path
 
-### 2.2 Hydration Dashboard Section
+1. Read the invitation and continue.
+2. Select a region on the schematic or in the chapter list.
+3. Open a food and read portion, preparation, nutrients, allergens, and sources.
+4. Filter, switch Front / Back / Spindle and a layer, then use All 12.
+5. Send feedback without personal health details.
 
-**Displayed on main dashboard.**
+Side view is visible and off. Spin is off until Start spin. The body is an equal-row schematic drawn for this demo, not a licensed anatomy plate.
 
-**UI elements:**
-- Large circular progress ring (total hydration):
-  - Center text: `currentHydration / hydrationGoal` (e.g., `1.5L / 2.5L`).
-- Quick-add buttons:
-  - `+250ml`
-  - `+500ml`
-- Breakdown row:
-  - `Water: X L` (icon: glass)
-  - `Meals: Y L` (icon: plate)
-- Links/text:
-  - `History` → opens hydration log.
-  - Hydration tip block (rotating tips).
+## Content boundary
 
-**State model (example):**
-- `hydration`:
-  - `total: number` (ml)
-  - `fromWater: number` (ml)
-  - `fromMeals: number` (ml)
-  - `goal: number` (ml, e.g., 2500)
-- `hydrationTips: string[]`
-- `selectedTipIndex: number`
-
-**Performance notes:**
-- Use memoized selectors:
-  - `totalHydration = fromWater + fromMeals`
-  - `progress = totalHydration / goal`
-- Animate progress ring only when `totalHydration` changes.
-- Avoid global re-renders: isolate hydration components from macros.
-
----
-
-### 2.3 Logging Hydration
-
-**User actions:**
-- Tap `+250ml` or `+500ml`.
-- Or open custom input modal: `Add Custom Amount`.
-
-**Logic:**
-- When user logs water:
-  - Update `fromWater += amount`.
-  - Recalculate `totalHydration`.
-- When hydration updates:
-  - Trigger animation on progress ring.
-  - Show inline feedback:
-    - Example: “Great job! Only 1 cup to go!”
-
-**Performance notes:**
-- Keep logging functions pure and fast.
-- Debounce or batch updates if multiple logs happen quickly.
-- Use lightweight animations (e.g., CSS transform / GPU-accelerated, or simple RN animated values).
-
----
-
-## 3. Macronutrient Tracking Workflow
-
-### 3.1 Macronutrient Dashboard Section
-
-**UI elements:**
-- Three circular progress bars:
-  - `Protein: current / goal (g)`
-  - `Carbs: current / goal (g)`
-  - `Fats: current / goal (g)`
-- Each progress ring shows:
-  - Label (e.g., “Protein”)
-  - `60g / 80g`
-- Link:
-  - `Tap a macro for details`
-- Button:
-  - `Log Meal`
-- Suggestions:
-  - e.g., “Try: Tofu” under Protein if protein is low.
-
-**State model (example):**
-- `macros`:
-  - `protein: { current: number, goal: number }`
-  - `carbs: { current: number, goal: number }`
-  - `fats: { current: number, goal: number }`
-- `macroSuggestions`: { protein: string[], carbs: string[], fats: string[] }
-
-**Performance notes:**
-- Store macro totals, not every tiny operation.
-- Use derived values for percentages:
-  - `percentage = current / goal`.
-- Avoid unnecessary re-renders of all three macros when only one changes.
-
----
-
-### 3.2 Logging a Meal
-
-**Flow:**
-- User taps `Log Meal`.
-- Open modal or new screen:
-  - Fields:
-    - Food name
-    - Portion size
-    - Protein (g)
-    - Carbs (g)
-    - Fats (g)
-- On submit:
-  - Update `macros.protein.current`, `macros.carbs.current`, `macros.fats.current`.
-  - Push entry into `mealHistory`.
-
-**Smart logic:**
-- After update, check which macro is below, e.g.:
-  - If `protein.current / protein.goal < 0.6`:
-    - Show: “Consider adding more protein to your next meal.”
-
-**Data model for meals (example):**
-- `mealHistory: Array<{
-    id: string;
-    timestamp: string;
-    name: string;
-    protein: number;
-    carbs: number;
-    fats: number;
-  }>`
-
-
-**Performance notes:**
-- Use IDs for meal entries to keep list updates efficient.
-- Virtualize long lists if needed (for meal history screen).
-- Keep modal lightweight and unmount when closed.
-
----
-
-### 3.3 Macro Details & History
-
-**When user taps a macro (e.g., Protein):**
-- Navig
+Sample chapter copy stands in for the source manuscript, which was not in the planning kit. Anatomy and nutrition sentences are labeled pending review. Symbolic sentences are labeled Traditional / Symbolic. Tissue salts are historical names only.
